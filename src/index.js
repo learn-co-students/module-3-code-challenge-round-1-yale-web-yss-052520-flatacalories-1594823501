@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 	showAllChars()
 	addCalories()
+	resetCalories()
 })
 
 function ce(element) {
@@ -33,6 +34,9 @@ function addOneChar(char) {
 }
 
 function showAllChars() {
+	let charList = query('div#character-bar')
+	charList.innerHTML = ""
+
 	fetch('http://localhost:3000/characters')
 	.then(response => response.json())
 	.then(characters => characters.forEach(char => {
@@ -40,33 +44,47 @@ function showAllChars() {
 	}))
 }
 
+function changeCalories(calNum) {
+	let form = query('form#calories-form')
+	let idNum = form[0].value
+
+	let postObj = {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body:JSON.stringify({
+			calories: calNum
+		})
+	}
+
+	fetch('http://localhost:3000/characters/' + idNum, postObj).then(() => showAllChars())
+	let cal = query('span#calories')
+	cal.innerText = calNum
+	form.reset()
+}
+
 function addCalories() {
 	let form = query('form#calories-form')
-
+	
 	form.addEventListener("submit", () => {
 		event.preventDefault()
-		let charID = form[0].value
 
 		let listedCals = query('span#calories').innerText 
 		let currentCals = (listedCals == "Character's Calories") ? 0 : parseInt(listedCals)
 		let addedCals = parseInt(form[1].value)
 		let totalCals = currentCals + addedCals
+		changeCalories(totalCals)
+	})
 
-		let cal = query('span#calories')
-		cal.innerText = totalCals
+}
 
-		let postObj = {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body:JSON.stringify({
-				calories: totalCals
-			})
-		}
-
-		fetch('http://localhost:3000/characters/' + charID, postObj)
-		// debugger
-		form.reset()
+function resetCalories() {
+	let form = query('form#calories-form')
+	let resetBtn = query('button#reset-btn')
+	resetBtn.addEventListener("click", () => {
+		changeCalories(0)
 	})
 }
+
+
