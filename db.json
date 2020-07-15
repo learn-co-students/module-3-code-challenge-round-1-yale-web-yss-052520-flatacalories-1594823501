@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Mr. Cute",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": 0
+      "calories": 10000
     },
     {
       "id": 2,
@@ -14,15 +14,15 @@
     },
     {
       "id": 3,
-      "name": "Miss. Zebra",
+      "name": "Jammy",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
-      "calories": 2300
+      "calories": 0
     },
     {
       "id": 4,
-      "name": "Master Lion",
+      "name": "Wilbur",
       "image": "http://bestanimations.com/Animals/Mammals/Cats/Lions/animated-lion-gif-11.gif",
-      "calories": 0
+      "calories": 300
     },
     {
       "id": 5,
@@ -32,7 +32,7 @@
     },
     {
       "id": 6,
-      "name": "Mrs. Monkey",
+      "name": "Jacques",
       "image": "https://cdn.dribbble.com/users/1832502/screenshots/4387756/monkeyanim.gif",
       "calories": 0
     }

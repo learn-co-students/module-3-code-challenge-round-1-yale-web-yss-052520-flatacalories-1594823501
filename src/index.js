@@ -62,5 +62,55 @@ calForm.addEventListener("submit", (e) => {
     addCalories(e)
 })
 
+resetBtn.addEventListener("click", () => {
+    if (calForm[0].value === "Character's id"){
+        alert("You have to select a character first!")
+        return
+    }
+    const id = calForm[0].value
+    const configObj = {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({calories: 0})
+    }
+    fetch(`${url}/${id}`, configObj).then(res => res.json())
+    .then(ch => charCals.innerText=ch.calories)
+})
+
 fetchChars()
 
+//Bonus
+
+
+const nameForm = ce('form')
+const nameInput = ce('input')
+const nameSubmit = ce('input')
+nameInput.setAttribute("type", "text")
+nameInput.setAttribute("placeholder", "New Name")
+nameSubmit.setAttribute("type", "submit")
+nameSubmit.value = "Change Name"
+nameForm.append(nameInput, nameSubmit)
+charInfo.append(ce('br'), ce('br'), nameForm)
+nameForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    if (calForm[0].value === "Character's id"){
+        alert("You have to select a character first!")
+        return
+    }
+    if (e.target[0].value === ""){
+        alert("You must enter a name!")
+        return
+    }
+    const id = calForm[0].value
+    const configObj = {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({name: e.target[0].value})
+    }
+    e.target.reset()
+    fetch(`${url}/${id}`, configObj).then(res => res.json())
+    .then(ch => {
+        charName.innerText=ch.name
+        document.getElementById(ch.id).innerText = ch.name
+    })
+})
