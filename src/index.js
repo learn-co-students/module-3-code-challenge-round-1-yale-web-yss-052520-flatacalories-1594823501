@@ -62,6 +62,10 @@ calForm.addEventListener("submit", (e) => {
     addCalories(e)
 })
 
+fetchChars()
+
+//Bonus
+
 resetBtn.addEventListener("click", () => {
     if (calForm[0].value === "Character's id"){
         alert("You have to select a character first!")
@@ -77,9 +81,7 @@ resetBtn.addEventListener("click", () => {
     .then(ch => charCals.innerText=ch.calories)
 })
 
-fetchChars()
 
-//Bonus
 
 
 const nameForm = ce('form')
