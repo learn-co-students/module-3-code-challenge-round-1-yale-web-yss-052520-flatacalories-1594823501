@@ -7,13 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
     function ce(element) {
         return document.createElement(element)
     }
-    
+
+    let editName = false 
+
     const characterDiv = qs("div#character-bar")
     const characterInfo = qs("div#detailed-info").children 
     const calories = qs("span#calories")
     const form = qs("form#calories-form")
     const reset = qs("button#reset-btn")
-    const nameChange = qs("button#edit-btn")
+    const resetName = qs("button#reset-name")
+    const nameForm = qs("form#name-form")
+
+
+    resetName.addEventListener("click", () => {
+        nameForm.style.display = "block"
+    })
 
     function addCharacter(character) {
 
@@ -28,14 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(updatedCharacter => {
                 calories.innerText = updatedCharacter.calories 
+                characterSpan.innerText = updatedCharacter.name 
+                characterInfo[0].innerText = updatedCharacter.name 
             })
 
-            characterInfo[0].innerText = character.name 
+            // characterInfo[0].innerText = character.name 
             characterInfo[1].src = character.image 
             
 
             //We also need to change the value of hidden field in the form 
-            form.children[0].value = character.id 
+            form.children[0].value = character.id
+            nameForm.children[0].value = character.id  
         })
 
         characterDiv.append(characterSpan)
@@ -71,6 +82,32 @@ document.addEventListener("DOMContentLoaded", () => {
             calories.innerText = updatedCharacter.calories
             form.reset() 
         })
+    })
+
+    nameForm.addEventListener("submit", () => {
+        // debugger  
+        event.preventDefault() 
+        const characterId = event.target[0].value 
+        const name = event.target[1].value 
+
+        fetch("http:localhost:3000/characters/"+characterId, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }, 
+            body: JSON.stringify({
+                name
+            })
+        })
+        .then(response => response.json())
+        .then(updatedCharacter => { 
+            characterInfo[0].innerText = updatedCharacter.name
+            nameForm.reset() 
+            debugger 
+            nameForm.style.display = "none"
+        })
+        
     })
 
     //if you have time, come back and refactor this code (maybe event after code challenge)

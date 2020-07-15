@@ -2,21 +2,21 @@
   "characters": [
     {
       "id": 1,
-      "name": "Mr. Cute",
+      "name": "Changin Name",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": 0
+      "calories": 500
     },
     {
       "id": 2,
       "name": "Mr. Monkey",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
-      "calories": 200
+      "calories": 250
     },
     {
       "id": 3,
       "name": "Miss. Zebra",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
-      "calories": 500
+      "calories": 600
     },
     {
       "id": 4,
