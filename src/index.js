@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const url = "http://localhost:3000/characters/"
-    const calorieForm = document.querySelector("form")
+    const calorieForm = document.querySelector("form#calories-form")
     const resetButton = document.querySelector("button")
+    const editName = document.querySelector("form#edit-name")
 
     function fetchCharacters(){
         fetch(url)
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const span = document.createElement("span")
         span.innerText = character.name
+        span.id = character.id.toString()
 
         span.addEventListener("click", function() {
             addDetails(character)
@@ -40,17 +42,28 @@ document.addEventListener("DOMContentLoaded", () => {
         charID.value = character.id
 
         calorieForm.addEventListener("submit", () => {
+            document.querySelector("input#newname").value ? newName = document.querySelector("input#newname").value : newName = character.name
             const calorieNum = event.target[1].value
             const newCalories = character.calories + parseInt(calorieNum,10)
-            addCalories(newCalories)
+            updateChar(newCalories,)
         })
+
         resetButton.addEventListener('click', () => {
-            addCalories(0)
+            updateChar(0)
+        })
+
+        editName.addEventListener("submit",() =>{
+            const newName = event.target[0].value
+            updateChar(character.calories, newName)
+            const span = document.querySelector(`span#${character.id}`)
+            console.log(span)
+            span.innerText = character.name
+            console.log(span)
         })
 
     }
 
-    function addCalories(newCalories) {
+    function updateChar(newCalories, newName) {
         const charID = document.querySelector("input#characterID").value
         event.preventDefault()
         const configObj = {
@@ -59,7 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                calories: newCalories
+                calories: newCalories,
+                name: newName
             })
         }
         fetch(url+charID,configObj)
@@ -67,12 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(updatedCharacter => {
             addDetails(updatedCharacter)
             calorieForm.reset()
+            editName.reset()
         })
     }
 
     fetchCharacters()
-
-
 
 })
 
