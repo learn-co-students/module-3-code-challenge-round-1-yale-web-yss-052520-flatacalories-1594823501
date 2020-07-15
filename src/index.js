@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     let characterBar = document.querySelector('div#character-bar')
     let detailedInfo = document.querySelector('div#detailed-info')
+    let nameForm = document.querySelector('form#name-form')
+    nameForm.style.display = 'none'
     detailedInfo.innerHTML = ""
 
     function ce(element) {
@@ -8,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchCharacters() {
+        characterBar.innerHTML = ""
         fetch('http://localhost:3000/characters')
             .then(res => res.json())
             .then(characters => addCharacters(characters))
@@ -23,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         span.innerText = character.name
         characterBar.append(span)
 
-        span.addEventListener('click', () => drawCharacter(character))
+        span.addEventListener('click', () => {
+            fetchCharacters() //so that it draws characters with updated info
+            drawCharacter(character)
+        })
     }
 
     function drawCharacter(character) {
@@ -32,6 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let p = ce('p')
         p.id = 'name'
         p.innerText = character.name
+
+        let nameButton = ce('button')
+        nameButton.id = 'reset-btn'
+        nameButton.innerText = 'Edit Name'
+
+        let br = ce('br')
 
         let img = ce('img')
         img.id = 'image'
@@ -68,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetButton.id = 'reset-btn'
         resetButton.innerText = 'Reset Calories'
 
-        detailedInfo.append(p, img, h4, form, resetButton)
+        detailedInfo.append(p, nameButton, br, img, h4, form, resetButton)
 
         form.addEventListener('submit', () => {
             event.preventDefault()
@@ -88,6 +100,53 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(`http://localhost:3000/characters/${character.id}`, configObj)
             .then(res => res.json())
             .then(updatedCharacter => drawCharacter(updatedCharacter))
+            form.reset()
+        })
+
+        resetButton.addEventListener('click', () => {
+            let newCalories = 0
+
+            let configObj = {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "calories": parseInt(newCalories, 10)
+                })
+            }
+
+            fetch(`http://localhost:3000/characters/${character.id}`, configObj)
+            .then(res => res.json())
+            .then(updatedCharacter => drawCharacter(updatedCharacter))
+        })
+
+        nameButton.addEventListener('click', () => {
+            nameForm.style.display = 'block'
+
+            nameForm.addEventListener('submit', () => {
+                event.preventDefault()
+
+                let newName = event.target[0].value
+
+                let configObj = {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "name": newName
+                    })
+                }
+
+                fetch(`http://localhost:3000/characters/${character.id}`, configObj)
+                .then(res => res.json())
+                .then(updatedCharacter => drawCharacter(updatedCharacter))
+                .then(fetchCharacters) //This is so that the bar at the top also updates with the new name
+                form.reset()
+                nameForm.style.display = 'none'
+            })
+
         })
     }
     fetchCharacters()
