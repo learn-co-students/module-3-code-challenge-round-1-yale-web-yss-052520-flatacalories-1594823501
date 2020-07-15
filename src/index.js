@@ -53,12 +53,14 @@ function showCharacter(character) {
     calTag.innerText = character.calories
 
     addCalories(character)
+    // resetCalories(character)
 
 }
 // let nameTag = qs('p#name')
 // let imageTag = qs('img#image')
 // let calTag = qs('span#calories')
 function addCalories(character) {
+
 const form = qs('form#calories-form')
 let formCharId = qs('input#characterId')
 formCharId.value = character.id 
@@ -67,22 +69,56 @@ form.addEventListener('submit', () => {
     event.preventDefault()
 // debugger
     let characterId = event.target[0].value
-    let newCalories = event.target[1].value 
-// debugger
+    let newCalories;
+    if (event.target[1].value == "") {
+        newCalories = 0
+    } else {
+        newCalories = event.target[1].value
+    }
+    let oldCalories = character.calories 
+   
+    debugger
     configObj = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            calories: +parseInt(newCalories, 10)
+            calories: oldCalories + parseInt(newCalories, 10)
         })
     }
+    // debugger 
+    // if (newCalories != "") {
     fetch(`http://localhost:3000/characters/${characterId}`, configObj)
     .then(res => res.json())
     .then(updatedCharacter => {
         getCharacter(updatedCharacter)
         form.reset()
     })
+
 })
 }
+
+// function resetCalories(character) {
+//     let resetBtn = qs('button#reset-btn')
+
+//     let characterId = character.id
+
+//     resetBtn.addEventListener('click', () => {
+//         configObj = {
+//             method: 'PATCH',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 calories: 0
+//             })
+//         }
+//         fetch(`http://localhost:3000/characters/${characterId}`, configObj)
+//         .then(res => res.json())
+//         .then(updatedCharacter => {
+//             getCharacter(updatedCharacter)
+            
+//     })
+// })
+// }
