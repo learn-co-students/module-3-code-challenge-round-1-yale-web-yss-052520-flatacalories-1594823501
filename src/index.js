@@ -9,7 +9,8 @@ function ce(element){
 const characterBar = qs("div#character-bar")
 const detailedInfo = qs("div#detailed-info")
 
-function showCharacters(){
+function showTopBar(){
+  characterBar.innerHTML = ''
   fetch('http://localhost:3000/characters')
   .then(res => res.json())
   .then(characters => {
@@ -17,7 +18,71 @@ function showCharacters(){
       addCharacter(character)
     })
   })
+  .then(() => {
+    displayNewCharacterSpan()
+  })
 }
+
+function displayNewCharacterSpan(){
+  let newSpan = ce('span')
+  newSpan.innerText = "New Character"
+  newSpan.id = "new-character"
+  characterBar.append(newSpan)
+  newSpan.addEventListener('click', () => {
+    displayNewCharacterForm()
+  })
+}
+
+function displayNewCharacterForm(){
+  detailedInfo.innerHTML = ''
+
+  let header = ce('h4')
+  header.innerText = "Create a New Character"
+
+  let newCharacterForm = ce('form')
+  newCharacterForm.id = "new-character-form"
+
+  let newCharacterName = ce('input')
+  newCharacterName.type = "text"
+  newCharacterName.placeholder = "Name"
+
+  let newCharacterImg = ce('input')
+  newCharacterImg.type = "text"
+  newCharacterImg.placeholder = "Image URL"
+
+  let submitBtn = ce('input')
+  submitBtn.type = "submit"
+  submitBtn.value = "Create"
+
+  newCharacterForm.append(newCharacterName, newCharacterImg, submitBtn)
+  detailedInfo.append(header, newCharacterForm)
+
+  newCharacterForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    let configObj = {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: newCharacterForm[0].value,
+        image: newCharacterForm[1].value,
+        calories: 0
+      })
+    }
+
+    fetch(`http://localhost:3000/characters`, configObj)
+    .then(res => res.json())
+    .then((updatedCharacter) => {
+      showTopBar()
+      showCharacter(updatedCharacter)
+    })
+
+  })
+}
+
+
 
 function addCharacter(character){
   let sp = ce('span')
@@ -32,8 +97,6 @@ function showCharacter(character){
 
   console.log("Showing " + character.name)
 
-
-
   fetch(`http://localhost:3000/characters/${character.id}`)
   .then(res => res.json())
   .then(character => {
@@ -42,6 +105,11 @@ function showCharacter(character){
     let characterName = ce('p')
     characterName.innerText = character.name
     characterName.id = "name"
+
+    let editNameBtn = ce('button')
+    editNameBtn.innerText = "Edit"
+
+    //characterName.append(editNameBtn)
 
     let characterImg = ce('img')
     characterImg.src = character.image
@@ -90,7 +158,6 @@ function showCharacter(character){
 
   })
 
-
 }
 
 function addCalories(character, newCalories){
@@ -134,4 +201,4 @@ function resetCalories(character){
   })
 }
 
-showCharacters()
+showTopBar()
