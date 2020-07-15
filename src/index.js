@@ -69,6 +69,7 @@ function showCharacter(character){
 
     calorieForm.append(newCalories, submitBtn)
 
+
     detailedInfo.append(characterName, characterImg, calorieCount, calorieForm)
 
 
