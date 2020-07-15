@@ -75,6 +75,8 @@ function displayChar(char){
             // calForm.reset()
         })
 
+        
+
     })
 
 }
