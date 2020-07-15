@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const charBar = qs('div#character-bar')
     const URL = 'http://localhost:3000/characters'
-    const detail = qs('div#detailed-info')
     const img = qs('img#image')
     const cals = qs('span#calories')
     const charName = qs('p#name')
@@ -39,31 +38,40 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(updatedChar => {
-            char = updatedChar
+            calForm.removeEventListener('submit', submitCals)
+            detailedChar(updatedChar)
         })
         .catch(err => {
             alert(err.message)
             return
         })
-        const move = await fetchChars()
-        detailedChar(char)
+        // fetchChars()
+        // detailedChar(char)
+    }
+    
+    function initialChar(char) {
+        img.src = char.image
+        cals.innerText = char.calories
+        charName.innerText = char.name
+        // return char
+    }
+    
+    async function submitCals(char, evt) {
+        evt.preventDefault()
+        // debugger
+        const newCals = evt.target[1].value
+        if (newCals <= 0) {
+            alert('Input must be greater than 0')
+        } else {
+            const response = await addCalories(char, newCals)
+            fetchChars()
+        }
     }
     
     function detailedChar(char) {
         // debugger
-        img.src = char.image
-        cals.innerText = char.calories
-        charName.innerText = char.name
-        calForm.addEventListener('submit', (evt) => {
-            evt.preventDefault()
-            // debugger
-            const newCals = evt.target[1].value
-            if (newCals <= 0) {
-                alert('Input must be greater than 0')
-            } else {
-                addCalories(char, newCals)
-            }
-        })
+        initialChar(char)
+        calForm.addEventListener('submit', (evt) => submitCals(char, evt))
         // return char
     }
 
@@ -83,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(chars => {
                 chars.forEach(char => displayChar(char))
             })
-            .catch(err => alert(err.message))
+            .catch(err => alert(err.message + ", please reload and try again"))
     }
 
     fetchChars()
