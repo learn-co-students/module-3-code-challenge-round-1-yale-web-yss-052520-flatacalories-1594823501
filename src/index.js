@@ -69,8 +69,11 @@ function showCharacter(character){
 
     calorieForm.append(newCalories, submitBtn)
 
+    resetBtn = ce('button')
+    resetBtn.id = "reset-button"
+    resetBtn.innerText = "Reset Calories"
 
-    detailedInfo.append(characterName, characterImg, calorieCount, calorieForm)
+    detailedInfo.append(characterName, characterImg, calorieCount, calorieForm, resetBtn)
 
 
     calorieForm.addEventListener('submit', (e) => {
@@ -79,6 +82,10 @@ function showCharacter(character){
       let newCalories = calorieForm[0].value
       addCalories(character, newCalories)
       }
+    })
+
+    resetBtn.addEventListener('click', () => {
+      resetCalories(character)
     })
 
   })
@@ -101,10 +108,30 @@ function addCalories(character, newCalories){
 
   fetch(`http://localhost:3000/characters/${character.id}`, configObj)
   .then(res => res.json())
-  .then(updatedCharacter => {
+  .then((updatedCharacter) => {
     showCharacter(updatedCharacter)
   })
 
+}
+
+function resetCalories(character){
+  console.log("Resetting calories for " + character.name)
+
+  let configObj = {
+    method: "PATCH",
+    headers: { 
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      calories: 0
+    })
+  }
+
+  fetch(`http://localhost:3000/characters/${character.id}`, configObj)
+  .then(res => res.json())
+  .then(updatedCharacter => {
+    showCharacter(updatedCharacter)
+  })
 }
 
 showCharacters()
