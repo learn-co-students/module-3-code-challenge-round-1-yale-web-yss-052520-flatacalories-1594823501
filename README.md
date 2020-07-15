@@ -1,7 +1,7 @@
 # Flatacalories
 Today you'll be building an app for counting calories!! You will be using a local API and building out the frontend for our app, Flatacalories.
 
-## Demo
+## Demo 
 Use this gif as an example of how the app should work.
 
 ![Demo](assets/demo.gif)
