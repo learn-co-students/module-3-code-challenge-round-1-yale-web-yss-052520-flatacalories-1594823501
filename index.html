@@ -11,10 +11,19 @@
         <div id = "character-bar">
             <!-- show characters names here -->
         </div>
+
+        
+        <form id = 'new-character'>
+            <h3>New Character: </h3><br>
+            <input type="text" id="characterName" placeholder = "Enter Name"/> 
+            <input type="text" id="characterImage" placeholder = "Enter Image Url"/> 
+            <input type="text" placeholder = "Enter Calories"/> 
+            <input type="submit" value="Create Character"/>
+        </form>
         
         <div class = "characterInfo">
             <form id = 'name-form'>
-                <input type="text" id="characterName"/> <!-- Assign character id as a value here -->
+                <input type="text" id="characterName"/> 
                 <input type="submit" value="Submit New Name"/>
             </form>
             <div id="detailed-info">

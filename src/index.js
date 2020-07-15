@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let characterBar = document.querySelector('div#character-bar')
     let detailedInfo = document.querySelector('div#detailed-info')
     let nameForm = document.querySelector('form#name-form')
+    let newForm = document.querySelector('form#new-character')
+    
+    // newForm.style.display = 'none'
     nameForm.style.display = 'none'
     detailedInfo.innerHTML = ""
 
@@ -150,6 +153,30 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
     fetchCharacters()
+
+    newForm.addEventListener('submit', () => {
+        event.preventDefault()
+
+        let newName = event.target[0].value
+        let newImage = event.target[1].value
+        let newCalories = event.target[2].value
+
+        let configObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "name": newName,
+                "image": newImage,
+                "calories": newCalories
+            })
+        }
+
+        fetch('http://localhost:3000/characters', configObj)
+        .then(fetchCharacters)
+        newForm.reset()
+    })
 
     })
 
