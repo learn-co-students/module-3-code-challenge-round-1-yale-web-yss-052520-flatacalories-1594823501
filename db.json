@@ -14,15 +14,15 @@
     },
     {
       "id": 3,
-      "name": "Miss. Zebra",
+      "name": "Mrs. Zebra",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
       "calories": 0
     },
     {
       "id": 4,
-      "name": "Master Lion",
+      "name": "Mr. Lion",
       "image": "http://bestanimations.com/Animals/Mammals/Cats/Lions/animated-lion-gif-11.gif",
-      "calories": 0
+      "calories": 3000
     },
     {
       "id": 5,
@@ -35,6 +35,24 @@
       "name": "Mrs. Monkey",
       "image": "https://cdn.dribbble.com/users/1832502/screenshots/4387756/monkeyanim.gif",
       "calories": 0
+    },
+    {
+      "name": "Mr. Giraffe",
+      "image": "https://images.unsplash.com/photo-1547721064-da6cfb341d50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=60",
+      "calories": "300",
+      "id": 7
+    },
+    {
+      "name": "Mr. Giraffe",
+      "image": "https://images.unsplash.com/photo-1547721064-da6cfb341d50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=60",
+      "calories": 350,
+      "id": 8
+    },
+    {
+      "name": "Harambe (RIP)",
+      "image": "https://media2.s-nbcnews.com/j/newscms/2016_21/1556456/capture_1b8e3daf5d0c8c1544ac722d70152c83.fit-760w.png",
+      "calories": "1000",
+      "id": 9
     }
   ]
 }

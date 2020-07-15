@@ -11,8 +11,21 @@
         <div id = "character-bar">
             <!-- show characters names here -->
         </div>
+
+        
+        <form id = 'new-character'>
+            <h3>New Character: </h3><br>
+            <input type="text" id="characterName" placeholder = "Enter Name"/> 
+            <input type="text" id="characterImage" placeholder = "Enter Image Url"/> 
+            <input type="text" placeholder = "Enter Calories"/> 
+            <input type="submit" value="Create Character"/>
+        </form>
         
         <div class = "characterInfo">
+            <form id = 'name-form'>
+                <input type="text" id="characterName"/> 
+                <input type="submit" value="Submit New Name"/>
+            </form>
             <div id="detailed-info">
                 <p id="name">Character's Name</p>
                 <img id="image" src="assets/dummy.gif"><!-- display character image here -->
