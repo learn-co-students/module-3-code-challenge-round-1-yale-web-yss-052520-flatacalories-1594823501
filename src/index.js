@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addInfo(character){
 
-            const name = qs("p")
+            const name = qs("#name")
             name.innerText = character.name
 
             const image = qs("#image")
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                 }
                 fetch (url + `/${character.id}`, configObject)
-                .then(response => response.json)
+                .then(response => response.json())
                 .then(updatedCharacter => {
                     calories.innerText = updatedCharacter.calories
                     character = updatedCharacter
