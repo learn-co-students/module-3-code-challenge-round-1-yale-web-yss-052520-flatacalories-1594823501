@@ -1,17 +1,8 @@
 const url = "http://localhost:3000/characters"
 let charac_bar = qs("#character-bar");
 
-add_new_charac();
 load_characters();
 
-function add_new_charac(){
-
-    let new_charac_form = ce("form")
-    new_charac_form.id = "new_form";
-
-    let input = ce("input");
-    debugger;
-}
 function load_characters(){
     fetch(url)
     .then(resp => resp.json())
@@ -23,7 +14,6 @@ function load_characters(){
 }
 
 function add_to_bar(character){
-   
     let span = ce("span");
     span.innerText = character.name;
     span.addEventListener("click", () => {
@@ -42,6 +32,7 @@ function add_charac_info(character){
     let image = qs("#image");
     image.src = character.image;
 
+    
     let calories = qs("#calories")
     calories.innerText = character.calories;
 
@@ -49,9 +40,10 @@ function add_charac_info(character){
     form.addEventListener("submit", () => {
         event.preventDefault();
         let new_calories = add_calories(event.target[1].value, calories.innerText);
-        fetch(url + `/${character.id}`, fetchObj("PATCH", patchData(new_calories)))
+        fetch(url + `/${character.id}`, fetchObj("PATCH", calorieData(new_calories)))
         .then(resp => resp.json())
         .then(new_character => {
+            debugger;
             calories.innerText = new_character.calories;
             character = new_character;
         })
@@ -60,7 +52,7 @@ function add_charac_info(character){
     
     let reset_btn = qs("#reset-btn");
     reset_btn.addEventListener("click", ()=> {
-        fetch(url + `/${character.id}`, fetchObj("PATCH", patchData(0)))
+        fetch(url + `/${character.id}`, fetchObj("PATCH", calorieData(0)))
         .then(resp => resp.json())
         .then(new_character => {
             calories.innerText = new_character.calories;
@@ -70,9 +62,36 @@ function add_charac_info(character){
 
 }
 
+function create_edit_name_form(character, before_node){
+    if (qs("#name_form")){return}
+    let edit_name_form = ce("form");
+    edit_name_form.id = "name_form";
 
+    let input = ce("input");
+    input.type = "text"
+    input.placeholder = "Change the name!"
 
-function patchData(new_calories){
+    let submit = ce("input");
+    submit.type = "submit"
+    submit.value = "Change Name"
+
+    edit_name_form.addEventListener("submit", () => {
+        event.preventDefault();
+        fetch(url + `/${character.id}`, fetchObj("PATCH", {name: event.target[0].value}))
+        .then(resp => resp.json())
+        .then(new_character => {
+            character = new_character;
+            load_characters();
+            qs("#name").innerText = new_character.name;
+            edit_name_form.reset();
+        })
+    })
+
+    edit_name_form.append(input, submit);
+    qs("#detailed-info").insertBefore(edit_name_form, before_node)
+}
+
+function calorieData(new_calories){
     return {
         calories: new_calories
     }
@@ -81,7 +100,6 @@ function patchData(new_calories){
 function add_calories(old_calories, new_calories){
     return parseInt(old_calories, 10) + parseInt(new_calories, 10);
 }
-
 
 function fetchObj(fetch_method, body){
     let ret_Obj = {
