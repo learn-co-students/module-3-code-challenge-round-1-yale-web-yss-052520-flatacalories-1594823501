@@ -45,8 +45,8 @@ function add_charac_info(character){
         .then(new_character => {
             calories.innerText = new_character.calories;
             character = new_character;
+            form.reset();
         })
-        form.reset();
     })
     
     let reset_btn = qs("#reset-btn");
@@ -61,34 +61,6 @@ function add_charac_info(character){
 
 }
 
-function create_edit_name_form(character, before_node){
-    if (qs("#name_form")){return}
-    let edit_name_form = ce("form");
-    edit_name_form.id = "name_form";
-
-    let input = ce("input");
-    input.type = "text"
-    input.placeholder = "Change the name!"
-
-    let submit = ce("input");
-    submit.type = "submit"
-    submit.value = "Change Name"
-
-    edit_name_form.addEventListener("submit", () => {
-        event.preventDefault();
-        fetch(url + `/${character.id}`, fetchObj("PATCH", {name: event.target[0].value}))
-        .then(resp => resp.json())
-        .then(new_character => {
-            character = new_character;
-            load_characters();
-            qs("#name").innerText = new_character.name;
-            edit_name_form.reset();
-        })
-    })
-
-    edit_name_form.append(input, submit);
-    qs("#detailed-info").insertBefore(edit_name_form, before_node)
-}
 
 function calorieData(new_calories){
     return {
