@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return document.createElement(element)
     }
 
-    let editName = false 
-
     const characterDiv = qs("div#character-bar")
     const characterInfo = qs("div#detailed-info").children 
     const calories = qs("span#calories")
@@ -40,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 characterInfo[0].innerText = updatedCharacter.name 
             })
 
-            // characterInfo[0].innerText = character.name 
             characterInfo[1].src = character.image 
             
 
@@ -49,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nameForm.children[0].value = character.id  
         })
 
+        //append the new character to the DOM
         characterDiv.append(characterSpan)
     }
 
@@ -79,13 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.json())
         .then(updatedCharacter => { 
+            //need to update the text on the DOM 
             calories.innerText = updatedCharacter.calories
             form.reset() 
         })
     })
 
     nameForm.addEventListener("submit", () => {
-        // debugger  
         event.preventDefault() 
         const characterId = event.target[0].value 
         const name = event.target[1].value 
@@ -104,14 +102,14 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(updatedCharacter => { 
             characterInfo[0].innerText = updatedCharacter.name
             nameForm.reset() 
-            debugger 
-            nameForm.style.display = "none"
+            nameForm.style.display = "none" //want the form to disappear 
         })
         
     })
 
     //if you have time, come back and refactor this code (maybe event after code challenge)
     reset.addEventListener("click", () => {
+        //grabbing this elements id from the hidden fields in the form
         const id = event.target.parentElement.children[3][0].value 
 
         fetch("http:localhost:3000/characters/"+id, {
