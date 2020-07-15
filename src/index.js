@@ -43,7 +43,6 @@ function add_charac_info(character){
         fetch(url + `/${character.id}`, fetchObj("PATCH", calorieData(new_calories)))
         .then(resp => resp.json())
         .then(new_character => {
-            debugger;
             calories.innerText = new_character.calories;
             character = new_character;
         })
