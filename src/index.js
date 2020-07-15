@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(updatedCharacter => {
                     calories.innerText = updatedCharacter.calories
                     character = updatedCharacter
+                    caloriesForm.reset()
                 })
-                caloriesForm.reset()
 
             })
 
