@@ -23,24 +23,41 @@ function displayCharacter(character) {
     span = document.querySelector("span#calories")
     span.innerText = character.calories
 
-    form = document.querySelector("form#calories-form")
+    oldForm = document.querySelector("form#calories-form")
+    form = oldForm.cloneNode(true)
+    characterDetails.replaceChild(form, oldForm)
+    oldForm.remove()
+
     form.addEventListener("submit", e => {
         e.preventDefault()
 
         character.calories = character.calories + parseInt(e.target[1].value)
 
-        fetch("http://localhost:3000/characters/" + character.id, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/JSON"},
-            body: JSON.stringify({
-                calories: character.calories
-            })
-        })
-        
-        span.innerText = character.calories
+        updateCharacter(character)
 
         form.reset()
+    })
 
+    oldresetBtn = document.querySelector("button#reset-btn")
+    resetBtn = oldresetBtn.cloneNode(true)
+    characterDetails.replaceChild(resetBtn, oldresetBtn)
+    oldresetBtn.remove()
+
+    resetBtn.addEventListener("click", function() {
+        character.calories = 0
+
+        updateCharacter(character)
     })
 }
 
+function updateCharacter(character) {
+    fetch("http://localhost:3000/characters/" + character.id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/JSON"},
+        body: JSON.stringify({
+            calories: character.calories
+        })
+    })
+
+    displayCharacter(character)
+}
