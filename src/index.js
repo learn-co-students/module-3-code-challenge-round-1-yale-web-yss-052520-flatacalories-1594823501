@@ -22,7 +22,7 @@ const img = qs("img#image")
 const calorieSpan = qs("span#calories")
 const form = qs("form#calories-form")
 const resetBtn = qs("button#reset-btn")
-var currentCharacter
+// var currentCharacter
 
 
 fetch("http://localhost:3000/characters")
@@ -39,71 +39,44 @@ function displayCharacter(character) {
     let span = ce("span")
     span.innerText = character.name
     span.addEventListener("click", () => {
-        // showcaseCharacter(character)
-        p.innerText = character.name
-
-        img.src = character.image
-
-        calorieSpan.innerText = character.calories
-
-        form.addEventListener("submit", () => {
-            event.preventDefault()
-            // document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-            submitCalories = event.target[1].value
-            // debugger
-            fetch(`http://localhost:3000/characters/${character.id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    calories: +character.calories + +submitCalories
-                })
-            })
-            .then(res => res.json())
-            .then(updatedCharacter => {
-                character = updatedCharacter
-                calorieSpan.innerText = character.calories
-                form.reset()
-            })
-        })
+        form[0].value = character.id
+        showcaseCharacter(character)
+        // resetBtn.addEventListener("click", )
     })
     characterBar.appendChild(span)
 }
 
 
 
-// function showcaseCharacter(character) {
-//     // currentCharacter = character
+function showcaseCharacter(character) {
+    p.innerText = character.name
 
-//     p.innerText = character.name
+    img.src = character.image
 
-//     img.src = character.image
+    calorieSpan.innerText = character.calories
 
-//     calorieSpan.innerText = character.calories
-
-//     form.addEventListener("submit", () => {
-//         event.preventDefault()
-//         // document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-//         submitCalories = event.target[1].value
-//         // debugger
-//         fetch(`http://localhost:3000/characters/${character.id}`, {
-//             method: "PATCH",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "application/json"
-//             },
-//             body: JSON.stringify({
-//                 calories: +character.calories + +submitCalories
-//             })
-//         })
-//         .then(res => res.json())
-//         .then(updatedCharacter => {
-//             character = updatedCharacter
-//             calorieSpan.innerText = character.calories
-//             form.reset()
-//         })
-//     })
-// }
+    form.addEventListener("submit", () => {
+        event.preventDefault()
+        // document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+        submitCalories = event.target[1].value
+        id = event.target[0].value
+        // debugger
+        fetch(`http://localhost:3000/characters/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                calories: +character.calories + +submitCalories
+            })
+        })
+        .then(res => res.json())
+        .then(updatedCharacter => {
+            character = updatedCharacter
+            calorieSpan.innerText = character.calories
+            form.reset()
+        })
+    })
+}
 
