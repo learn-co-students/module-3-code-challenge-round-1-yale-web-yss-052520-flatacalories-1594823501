@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(res => res.json())
         .then(updatedChar => {
-            calForm.removeEventListener('submit', submitCals)
+            // calForm.removeEventListener('submit', submitCals)
             detailedChar(updatedChar)
         })
         .catch(err => {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newCals <= 0) {
             alert('Input must be greater than 0')
         } else {
-            const response = await addCalories(char, newCals)
+            const submit = await addCalories(char, newCals)
             fetchChars()
         }
     }
