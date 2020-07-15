@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
     function qs(element) {
         return document.querySelector(element)
     }
@@ -11,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const characterInfo = qs("div#detailed-info").children 
     const calories = qs("span#calories")
     const form = qs("form#calories-form")
+    const reset = qs("button#reset-btn")
+    const nameChange = qs("button#edit-btn")
 
     function addCharacter(character) {
 
@@ -69,5 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
             form.reset() 
         })
     })
-})
 
+    //if you have time, come back and refactor this code (maybe event after code challenge)
+    reset.addEventListener("click", () => {
+        const id = event.target.parentElement.children[3][0].value 
+
+        fetch("http:localhost:3000/characters/"+id, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }, 
+            body: JSON.stringify({
+                calories: 0
+            })
+        })
+        .then(response => response.json())
+        .then(updatedCharacter => {
+            calories.innerText = updatedCharacter.calories 
+        })
+    })
+})
